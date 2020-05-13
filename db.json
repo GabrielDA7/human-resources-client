@@ -1,0 +1,22 @@
+{
+  "me": {
+    "name": "jeanclaude",
+    "age": 31,
+    "email": "jeanclaude@gmail.com",
+    "role": 1
+  },
+  "login": {
+    "user": {
+      "email": "admin@cbdunit.fr",
+      "password": "sqdqsd"
+    },
+    "token": "sqdqsdqsd"
+  },
+  "register": {
+    "user": {
+      "email": "admin@cbdunit.fr",
+      "password": "sqdqsd"
+    },
+    "token": "sqdqsdqd"
+  }
+}
