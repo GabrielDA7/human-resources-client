@@ -2,11 +2,14 @@ import React from 'react';
 
 import {Provider as PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
+import {AuthProvider} from './auth-context';
 
 function AppProviders({children}) {
   return (
     <NavigationContainer>
-      <PaperProvider>{children}</PaperProvider>
+      <AuthProvider>
+        <PaperProvider>{children}</PaperProvider>
+      </AuthProvider>
     </NavigationContainer>
   );
 }

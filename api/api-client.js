@@ -25,15 +25,13 @@ async function client(endpoint, {body, ...customConfig} = {}) {
   }
 
   return window
-    .fetch(`${process.env.REACT_APP_URL}/${endpoint}`, config)
+    .fetch(`http://localhost:3000/${endpoint}`, config)
     .then(async response => await handleResponse(response));
 }
 
 async function handleResponse(response) {
   if (response.status === 401) {
-    AuthService.logout();
-    window.location.assign(window.location);
-    return;
+    await AuthService.logout();
   }
 
   const data = await response.json();

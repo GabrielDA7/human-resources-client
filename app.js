@@ -8,40 +8,23 @@
 
 import React from 'react';
 
-import {SafeAreaView, ScrollView, StatusBar} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
+import {StatusBar} from 'react-native';
 
-import {View, Text} from 'react-native';
-
-function HomeScreen() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
-
-const Stack = createStackNavigator();
+import SpinnerScreen from './react/screens/spinner-screen';
+import {useAuth} from './react/context/auth-context';
+import AuthenticatedApp from './authenticated-app';
+import UnauthenticatedApp from './unauthenticated-app';
 
 const App: () => React$Node = () => {
+  const {user} = useAuth();
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <AppRoutes />
-        </ScrollView>
-      </SafeAreaView>
+      <React.Suspense fallback={<SpinnerScreen />}>
+        <StatusBar barStyle="dark-content" />
+        {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+      </React.Suspense>
     </>
   );
 };
 
-function AppRoutes() {
-  return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeScreen} />
-    </Stack.Navigator>
-  );
-}
 export default App;

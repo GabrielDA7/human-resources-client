@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const storageKey = '__hr_token__';
 
 function handleAuthResponse({token, ...user}) {
-  setToken(token).then(r => r);
+  setToken(token);
   return user;
 }
 
@@ -17,19 +17,21 @@ function getUser() {
 }
 
 async function getToken() {
-  return await AsyncStorage.getItem(storageKey);
+  return AsyncStorage.getItem(storageKey)
+    .then(res => JSON.parse(res))
+    .catch(err => alert(err));
 }
 
 async function setToken(token) {
-  await AsyncStorage.setItem(storageKey, token);
+  await AsyncStorage.setItem(storageKey, JSON.stringify(token));
 }
 
 async function logout() {
-  await AsyncStorage.removeItem(storageKey);
+  await AsyncStorage.removeItem(storageKey).then(res => res);
 }
 
 function isLoggedIn() {
-  return Boolean(getToken());
+  return getToken().then(token => Boolean(token));
 }
 
 export {getUser, getToken, setToken, logout, isLoggedIn, handleAuthResponse};

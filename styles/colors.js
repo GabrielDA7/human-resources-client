@@ -1,5 +1,5 @@
 export const white = '#FFFFFF';
+export const primary = '#4e1a70';
+export const text = '#7b7f89';
+export const error = '#c02739';
 export const richBlack = '#00171F';
-export const prussianBlue = '#003459';
-export const celadonBlue = '#007EA7';
-export const carolinaBlue = '#00A8E8';
