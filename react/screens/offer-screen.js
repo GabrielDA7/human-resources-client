@@ -7,16 +7,20 @@ import {
   View,
   ScrollView,
 } from 'react-native';
+import Button from '../components/button';
 
 import * as colors from '../../styles/colors';
 import {useFocusEffect} from '@react-navigation/core';
 import {get} from '../../api/offer-client';
 import {List} from 'react-native-paper';
+import {useAuth} from '../context/auth-context';
+import {isRecruiter} from '../../services/role-service';
 
 function OfferScreen({route, navigation}) {
   const [error, setError] = useState(null);
   const [offer, setOffer] = useState({});
   const {offerId} = route.params;
+  const {user} = useAuth();
 
   useFocusEffect(
     useCallback(() => {
@@ -56,6 +60,13 @@ function OfferScreen({route, navigation}) {
               : null}
           </List.Accordion>
         </List.Section>
+        {!isRecruiter(user) ? (
+          <Button
+            mode="contained"
+            onPress={() => navigation.navigate('Application')}>
+            Apply
+          </Button>
+        ) : null}
       </ScrollView>
     </ImageBackground>
   );

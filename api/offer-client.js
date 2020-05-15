@@ -8,7 +8,7 @@ function addOffer(token, userId) {
 }
 
 function application(formData) {
-  return client('application', {
+  return client('applications', {
     body: formData,
     method: 'POST',
   });

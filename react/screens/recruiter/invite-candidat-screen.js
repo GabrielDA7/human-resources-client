@@ -31,7 +31,6 @@ function InviteCandidatScreen({route, navigation}) {
           navigation.navigate('Home');
         }}
       />
-      <Logo />
       <Header>Invite Candidate</Header>
       {error ? (
         <Text style={styles.error}>

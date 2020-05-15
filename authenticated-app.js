@@ -14,6 +14,7 @@ import AddOfferScreen from './react/screens/candidate/add-offer-screen';
 import OfferScreen from './react/screens/offer-screen';
 import CreateOfferScreen from './react/screens/recruiter/create-offer-screen';
 import InviteCandidatScreen from './react/screens/recruiter/invite-candidat-screen';
+import ApplicationOffer from './react/screens/candidate/application-offer-screen';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -87,8 +88,8 @@ function LarbinRoutes() {
       }}>
       <Stack.Screen name="Home" component={HomeCandidateScreen} />
       <Stack.Screen name="AddOffer" component={AddOfferScreen} />
-      <Stack.Screen name="Application" component={HomeCandidateScreen} />
       <Stack.Screen name="Offer" component={OfferScreen} />
+      <Stack.Screen name="Application" component={ApplicationOffer} />
     </Stack.Navigator>
   );
 }

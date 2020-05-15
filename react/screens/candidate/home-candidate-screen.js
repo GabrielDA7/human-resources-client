@@ -13,6 +13,7 @@ import * as colors from '../../../styles/colors';
 import Header from '../../components/header';
 import {useAuth} from '../../context/auth-context';
 import Paragraph from '../../components/paragraph';
+import OffersList from '../../components/offers-list';
 
 function HomeCandidateScreen({navigation}) {
   const [data, setData] = useState({offers: [], totalItems: 1});
@@ -41,45 +42,7 @@ function HomeCandidateScreen({navigation}) {
         <Paragraph>
           You will find below all the offers you applied for
         </Paragraph>
-        {error ? (
-          <Text style={styles.error}>
-            {error.message ? error.message : error['hydra:title']}
-          </Text>
-        ) : null}
-        {data['totalItems'] > 0 ? (
-          <DataTable>
-            <DataTable.Header>
-              <DataTable.Title date>Date</DataTable.Title>
-              <DataTable.Title>Name</DataTable.Title>
-              <DataTable.Title>Type</DataTable.Title>
-              <DataTable.Title>Status</DataTable.Title>
-            </DataTable.Header>
-            {data['offers'].map(item => {
-              return (
-                <TouchableHighlight
-                  underlayColor={colors.primary}
-                  onPress={item => navigation.navigate('Offer')}>
-                  <DataTable.Row>
-                    <DataTable.Cell>{item.date}</DataTable.Cell>
-                    <DataTable.Cell>{item.name}</DataTable.Cell>
-                    <DataTable.Cell>{item.type}</DataTable.Cell>
-                    <DataTable.Cell>pending</DataTable.Cell>
-                  </DataTable.Row>
-                </TouchableHighlight>
-              );
-            })}
-            <DataTable.Pagination
-              page={page}
-              onPageChange={currentPage => {
-                setPage(currentPage);
-              }}
-              numberOfPages={data['totalItems']}
-              label={`${page.toString()} of ${data['totalItems'].toString()}`}
-            />
-          </DataTable>
-        ) : (
-          <Text style={{textAlign: 'center', fontSize: 24}}>No offers</Text>
-        )}
+        <OffersList navigation={navigation} />
       </View>
       <FAB
         style={styles.fab}
