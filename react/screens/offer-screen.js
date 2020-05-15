@@ -55,7 +55,7 @@ function OfferScreen({route, navigation}) {
           <List.Accordion title="Candidates" expanded={true}>
             {offer.invitations
               ? offer.invitations.map((item, i) => {
-                  return <List.Item key={i} title={item.token} />;
+                  return <List.Item key={i} title={item.applicant.email} />;
                 })
               : null}
           </List.Accordion>
