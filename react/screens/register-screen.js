@@ -11,13 +11,28 @@ import BackButton from '../components/back-button';
 
 import * as colors from '../../styles/colors';
 
+import {useAuth} from '../context/auth-context';
+import {Checkbox, TouchableRipple} from 'react-native-paper';
+
 const RegisterScreen = ({navigation}: Props) => {
-  const [name, setName] = useState({value: '', error: ''});
   const [email, setEmail] = useState({value: '', error: ''});
+  const [error, setError] = useState(null);
+  const [checked, setChecked] = useState(false);
   const [password, setPassword] = useState({value: '', error: ''});
 
+  const {register} = useAuth();
+
   const _onSignUpPressed = () => {
-    navigation.navigate('Home');
+    const roles = [checked ? 'ROLE_RECRUITER' : 'ROLE_USER'];
+    register({
+      email: email.value,
+      password: password.value,
+      roles: roles,
+    })
+      .then(() => navigation.navigate('Confirm'))
+      .catch(err => {
+        setError(err);
+      });
   };
 
   return (
@@ -27,7 +42,11 @@ const RegisterScreen = ({navigation}: Props) => {
       <Logo />
 
       <Header>Create Account</Header>
-
+      {error ? (
+        <Text style={styles.error}>
+          {error.message ? error.message : error['hydra:title']}
+        </Text>
+      ) : null}
       <TextInput
         label="Email"
         returnKeyType="next"
@@ -51,6 +70,17 @@ const RegisterScreen = ({navigation}: Props) => {
         secureTextEntry
       />
 
+      <View style={styles.rowCheck}>
+        <View style={styles.checkboxContainer}>
+          <Checkbox
+            status={checked ? 'checked' : 'unchecked'}
+            color={colors.primary}
+            onPress={() => (checked ? setChecked(false) : setChecked(true))}
+          />
+        </View>
+        <Text style={styles.labelCheck}>Recruiter</Text>
+      </View>
+
       <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
         Sign Up
       </Button>
@@ -66,11 +96,30 @@ const RegisterScreen = ({navigation}: Props) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    height: 48,
+  },
+  rowCheck: {
+    minHeight: 48,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkboxContainer: {
+    paddingRight: 8,
+  },
+  labelCheck: {
+    flex: 1,
+    flexWrap: 'wrap',
+    color: colors.text,
+  },
   label: {
     color: colors.text,
   },
   button: {
     marginTop: 24,
+  },
+  error: {
+    color: colors.error,
   },
   row: {
     flexDirection: 'row',

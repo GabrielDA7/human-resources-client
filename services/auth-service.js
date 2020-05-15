@@ -1,25 +1,26 @@
 import {client} from '../api/api-client';
 import AsyncStorage from '@react-native-community/async-storage';
+import jwt from 'jwt-decode';
 
 const storageKey = '__hr_token__';
 
-function handleAuthResponse({token, ...user}) {
-  setToken(token);
-  return user;
+async function handleAuthResponse({token, ...data}) {
+  await setToken(token);
+  return data['user'];
 }
 
-function getUser() {
-  const token = getToken();
+async function getUser() {
+  const token = await getToken();
+
   if (!token) {
     return Promise.resolve(null);
   }
-  return client('me', {method: 'GET'}).then(userData => userData);
+
+  return jwt(token);
 }
 
 async function getToken() {
-  return AsyncStorage.getItem(storageKey)
-    .then(res => JSON.parse(res))
-    .catch(err => alert(err));
+  return AsyncStorage.getItem(storageKey).then(res => JSON.parse(res));
 }
 
 async function setToken(token) {
@@ -27,7 +28,7 @@ async function setToken(token) {
 }
 
 async function logout() {
-  await AsyncStorage.removeItem(storageKey).then(res => res);
+  await AsyncStorage.removeItem(storageKey);
 }
 
 function isLoggedIn() {

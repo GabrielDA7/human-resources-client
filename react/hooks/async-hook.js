@@ -38,7 +38,7 @@ function useAsync() {
           return data;
         },
         error => {
-          safeSetState({error, status: 'rejected'});
+          safeSetState({status: 'rejected', error});
           return error;
         },
       );

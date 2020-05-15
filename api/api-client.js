@@ -1,7 +1,7 @@
 import * as AuthService from '../services/auth-service';
 
 async function client(endpoint, {body, ...customConfig} = {}) {
-  const token = AuthService.getToken();
+  const token = await AuthService.getToken();
   const headers = {'content-type': 'application/json'};
 
   if (token) {
@@ -25,7 +25,7 @@ async function client(endpoint, {body, ...customConfig} = {}) {
   }
 
   return window
-    .fetch(`http://localhost:3000/${endpoint}`, config)
+    .fetch(`https://localhost:8443/${endpoint}`, config)
     .then(async response => await handleResponse(response));
 }
 
@@ -35,7 +35,6 @@ async function handleResponse(response) {
   }
 
   const data = await response.json();
-
   if (response.ok) {
     return data;
   } else {

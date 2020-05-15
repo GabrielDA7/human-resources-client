@@ -4,7 +4,7 @@ async function bootstrapAppData() {
   let appData = {user: null};
 
   if (await isLoggedIn()) {
-    appData.user = await Promise.all([getUser()]);
+    appData.user = await getUser();
   }
 
   return appData;

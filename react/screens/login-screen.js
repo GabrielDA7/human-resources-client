@@ -10,22 +10,38 @@ import Button from '../components/button';
 import BackButton from '../components/back-button';
 import TextInput from '../components/text-input';
 
+import {useAsync} from '../hooks/async-hook';
+import {useAuth} from '../context/auth-context';
+
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
+  const {login} = useAuth();
+  const {isError, error, run} = useAsync();
 
   const _onLoginPressed = () => {
-    navigation.navigate('Home');
+    run(
+      login({
+        email: email.value,
+        password: password.value,
+      }),
+    );
   };
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate('Home')} />
-
+      <BackButton
+        goBack={() => {
+          navigation.navigate('Home');
+        }}
+      />
       <Logo />
-
       <Header>Welcome back.</Header>
-
+      {isError ? (
+        <Text style={styles.error}>
+          {error.message ? error.message : error['hydra:title']}
+        </Text>
+      ) : null}
       <TextInput
         label="Email"
         returnKeyType="next"
@@ -38,7 +54,6 @@ const LoginScreen = ({navigation}) => {
         textContentType="emailAddress"
         keyboardType="email-address"
       />
-
       <TextInput
         label="Password"
         returnKeyType="done"
@@ -48,11 +63,9 @@ const LoginScreen = ({navigation}) => {
         errorText={password.error}
         secureTextEntry
       />
-
       <Button mode="contained" onPress={_onLoginPressed}>
         Login
       </Button>
-
       <View style={styles.row}>
         <Text style={styles.label}>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
@@ -68,6 +81,9 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-end',
     marginBottom: 24,
+  },
+  error: {
+    color: colors.error,
   },
   row: {
     flexDirection: 'row',

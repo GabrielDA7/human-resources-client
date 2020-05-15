@@ -3,13 +3,23 @@ import {client} from './api-client';
 import {handleAuthResponse} from '../services/auth-service';
 
 function login({email, password}) {
-  return client('login', {body: {email, password}, method: 'POST'}).then(
-    handleAuthResponse,
-  );
+  return client('authentication_token', {
+    body: {email, password},
+    method: 'POST',
+  }).then(handleAuthResponse);
 }
 
-function register({email, password}) {
-  return client('register', {body: {email, password}, method: 'POST'});
+function confirm({confirmationToken}) {
+  return client(`users/confirm/${confirmationToken}`, {
+    method: 'GET',
+  });
 }
 
-export {login, register};
+function register({email, password, roles}) {
+  return client('users', {
+    body: {email, password, roles},
+    method: 'POST',
+  });
+}
+
+export {login, register, confirm};

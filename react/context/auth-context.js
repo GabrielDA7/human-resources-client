@@ -37,9 +37,8 @@ function AuthProvider(props) {
   );
 
   const register = React.useCallback(
-    registerForm =>
-      AuthClient.register(registerForm).then(user => setData({user})),
-    [setData],
+    registerForm => AuthClient.register(registerForm),
+    [],
   );
 
   const logout = React.useCallback(() => {
